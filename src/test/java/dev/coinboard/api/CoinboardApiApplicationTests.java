@@ -10,4 +10,9 @@ class CoinboardApiApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void failureTest() {
+		fail("Yo");
+	}
+
 }
