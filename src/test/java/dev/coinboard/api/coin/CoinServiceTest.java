@@ -10,7 +10,7 @@ class CoinServiceTest {
   static class FakeCoinSource implements CoinSource {
     @Override
     public List<String> fetchCoinIds() {
-      return List.of("bitcoin", "etherium", "tether", "bnb", "xrp");
+      return List.of("bitcoin", "ethereum", "tether", "binancecoin", "ripple");
     }
   }
 
@@ -21,8 +21,7 @@ class CoinServiceTest {
 
     var response = service.topCoinIds(3);
 
-    assertThat(response.size()).isEqualTo(3);
-    assertThat(response).containsExactly("bitcoin", "etherium", "tether");
+    assertThat(response).containsExactly("bitcoin", "ethereum", "tether");
   }
 
   @Test
@@ -32,8 +31,7 @@ class CoinServiceTest {
 
     var response = coinService.topCoinIds(5);
 
-    assertThat(response.size()).isEqualTo(5);
-    assertThat(response).containsExactly("bitcoin", "etherium", "tether", "bnb", "xrp");
+    assertThat(response).containsExactly("bitcoin", "ethereum", "tether", "binancecoin", "ripple");
   }
 
   @Test
@@ -43,14 +41,13 @@ class CoinServiceTest {
 
     var response = coinService.topCoinIds(900);
 
-    assertThat(response.size()).isEqualTo(5);
-    assertThat(response).containsExactly("bitcoin", "etherium", "tether", "bnb", "xrp");
+    assertThat(response).containsExactly("bitcoin", "ethereum", "tether", "binancecoin", "ripple");
   }
 
   @Test
   void coinServiceRequestLimitIsZero() {
-    var fakeCoinService = new FakeCoinSource();
-    var coinService = new CoinService(fakeCoinService);
+    var fakeCoinSource = new FakeCoinSource();
+    var coinService = new CoinService(fakeCoinSource);
 
     var response = coinService.topCoinIds(0);
     assertThat(response).isEmpty();

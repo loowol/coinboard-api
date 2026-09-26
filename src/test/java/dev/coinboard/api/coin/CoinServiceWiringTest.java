@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootTest
-public class CoinServiceWiringTest {
+class CoinServiceWiringTest {
 
   @Autowired
   CoinService coinService;
@@ -28,6 +28,6 @@ public class CoinServiceWiringTest {
 
   @Test
   void topCoinIdsWithLimitThreeReturnsThreeCoins() {
-    assertThat(coinService.topCoinIds(3)).containsExactly("bitcoin", "etherium", "tether");
+    assertThat(coinService.topCoinIds(3)).containsExactly("bitcoin", "ethereum", "tether");
   }
 }

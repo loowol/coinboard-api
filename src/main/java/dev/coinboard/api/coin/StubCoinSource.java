@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 class StubCoinSource implements CoinSource {
   @Override
   public List<String> fetchCoinIds() {
-    return List.of("bitcoin", "etherium", "tether", "bnb", "xrp");
+    return List.of("bitcoin", "ethereum", "tether", "binancecoin", "ripple");
   }
 }
