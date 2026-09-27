@@ -6,59 +6,58 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CoinServiceTest {
-
-  static class FakeCoinSource implements CoinSource {
-    @Override
-    public List<String> fetchCoinIds() {
-      return List.of("bitcoin", "ethereum", "tether", "binancecoin", "ripple");
+    static class FakeCoinSource implements CoinSource {
+        @Override
+        public List<CoinSummary> fetchCoins() {
+            return TestCoins.TOP_FIVE;
+        }
     }
-  }
 
-  @Test
-  void coinServiceRequestLimitLessThanAvailable() {
-    var fakeCoinSource = new FakeCoinSource();
-    var service = new CoinService(fakeCoinSource);
+    @Test
+    void coinServiceRequestLimitLessThanAvailable() {
+        var fakeCoinSource = new FakeCoinSource();
+        var service = new CoinService(fakeCoinSource);
 
-    var response = service.topCoinIds(3);
+        var response = service.topCoins(3);
 
-    assertThat(response).containsExactly("bitcoin", "ethereum", "tether");
-  }
+        assertThat(response).containsExactly(TestCoins.BITCOIN, TestCoins.ETHEREUM, TestCoins.TETHER);
+    }
 
-  @Test
-  void coinServiceRequestLimitEqualsAvailable() {
-    var fakeCoinSource = new FakeCoinSource();
-    var coinService = new CoinService(fakeCoinSource);
+    @Test
+    void coinServiceRequestLimitEqualsAvailable() {
+        var fakeCoinSource = new FakeCoinSource();
+        var coinService = new CoinService(fakeCoinSource);
 
-    var response = coinService.topCoinIds(5);
+        var response = coinService.topCoins(5);
 
-    assertThat(response).containsExactly("bitcoin", "ethereum", "tether", "binancecoin", "ripple");
-  }
+        assertThat(response).isEqualTo(TestCoins.TOP_FIVE);
+    }
 
-  @Test
-  void coinServiceRequestLimitMoreThanAvailable() {
-    var fakeCoinSource = new FakeCoinSource();
-    var coinService = new CoinService(fakeCoinSource);
+    @Test
+    void coinServiceRequestLimitMoreThanAvailable() {
+        var fakeCoinSource = new FakeCoinSource();
+        var coinService = new CoinService(fakeCoinSource);
 
-    var response = coinService.topCoinIds(900);
+        var response = coinService.topCoins(900);
 
-    assertThat(response).containsExactly("bitcoin", "ethereum", "tether", "binancecoin", "ripple");
-  }
+        assertThat(response).isEqualTo(TestCoins.TOP_FIVE);
+    }
 
-  @Test
-  void coinServiceRequestLimitIsZero() {
-    var fakeCoinSource = new FakeCoinSource();
-    var coinService = new CoinService(fakeCoinSource);
+    @Test
+    void coinServiceRequestLimitIsZero() {
+        var fakeCoinSource = new FakeCoinSource();
+        var coinService = new CoinService(fakeCoinSource);
 
-    var response = coinService.topCoinIds(0);
-    assertThat(response).isEmpty();
-  }
+        var response = coinService.topCoins(0);
+        assertThat(response).isEmpty();
+    }
 
-  @Test
-  void coinServiceRequestLimitIsNegative() {
-    var fakeCoinSource = new FakeCoinSource();
-    var coinService = new CoinService(fakeCoinSource);
+    @Test
+    void coinServiceRequestLimitIsNegative() {
+        var fakeCoinSource = new FakeCoinSource();
+        var coinService = new CoinService(fakeCoinSource);
 
-    var response = coinService.topCoinIds(-100);
-    assertThat(response).isEmpty();
-  }
+        var response = coinService.topCoins(-100);
+        assertThat(response).isEmpty();
+    }
 }

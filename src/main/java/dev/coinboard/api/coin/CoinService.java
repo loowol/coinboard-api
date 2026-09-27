@@ -6,19 +6,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CoinService {
-  private final CoinSource coinSource;
+    private final CoinSource coinSource;
 
-  public CoinService(CoinSource coinSource) {
-    this.coinSource = coinSource;
-  }
-
-  public List<String> topCoinIds(int limit) {
-    if (limit <= 0) {
-      return List.of();
+    public CoinService(CoinSource coinSource) {
+        this.coinSource = coinSource;
     }
 
-    List<String> response = coinSource.fetchCoinIds();
+    public List<CoinSummary> topCoins(int limit) {
+        if (limit <= 0) {
+            return List.of();
+        }
 
-    return List.copyOf(response.subList(0, Math.min(response.size(), limit)));
-  }
+        List<CoinSummary> response = coinSource.fetchCoins();
+
+        return List.copyOf(response.subList(0, Math.min(response.size(), limit)));
+    }
 }
