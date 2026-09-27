@@ -9,25 +9,24 @@ import org.springframework.context.ApplicationContext;
 
 @SpringBootTest
 class CoinServiceWiringTest {
+    @Autowired
+    CoinService coinService;
 
-  @Autowired
-  CoinService coinService;
+    @Autowired
+    ApplicationContext context;
 
-  @Autowired
-  ApplicationContext context;
+    @Test
+    void serviceIsCreatedAndWired() {
+        assertThat(coinService).isNotNull();
+    }
 
-  @Test
-  void serviceIsCreatedAndWired() {
-    assertThat(coinService).isNotNull();
-  }
+    @Test
+    void thereIsExactlyOneInstance() {
+        assertThat(context.getBean(CoinService.class)).isSameAs(coinService);
+    }
 
-  @Test
-  void thereIsExactlyOneInstance() {
-    assertThat(context.getBean(CoinService.class)).isSameAs(coinService);
-  }
-
-  @Test
-  void topCoinIdsWithLimitThreeReturnsThreeCoins() {
-    assertThat(coinService.topCoinIds(3)).containsExactly("bitcoin", "ethereum", "tether");
-  }
+    @Test
+    void topCoinsWithLimitThreeReturnsThreeCoins() {
+        assertThat(coinService.topCoins(3)).containsExactly(TestCoins.BITCOIN, TestCoins.ETHEREUM, TestCoins.TETHER);
+    }
 }
