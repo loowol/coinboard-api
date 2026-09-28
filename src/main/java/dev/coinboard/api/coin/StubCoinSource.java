@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 class StubCoinSource implements CoinSource {
     @Override
-                                                        public List<CoinSummary> fetchCoins() {
+    public List<CoinSummary> fetchCoins() {
         CoinSummary BITCOIN = new CoinSummary("bitcoin", "btc", "Bitcoin", 1);
         CoinSummary ETHEREUM = new CoinSummary("ethereum", "eth", "Ethereum", 2);
         CoinSummary TETHER = new CoinSummary("tether", "usdt", "Tether", 3);
