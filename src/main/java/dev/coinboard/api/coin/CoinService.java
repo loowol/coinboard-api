@@ -25,9 +25,6 @@ public class CoinService {
         List<CoinSummary> coinSummaries = coinSource.fetchCoins();
         for (CoinSummary coinSummary : coinSummaries) {
             if (coinSummary.id().equals(id)) {
-                if (coinSummary.id().equals("I am an exception")) {
-                    new IllegalStateException("oops");
-                }
                 return coinSummary;
             }
         }
