@@ -1,7 +1,6 @@
 package dev.coinboard.api.coin;
 
 import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 @Component

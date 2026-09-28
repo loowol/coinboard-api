@@ -11,5 +11,4 @@ public class CoinNotFoundException extends RuntimeException {
     public String coinId() {
         return coinId;
     }
-
 }

@@ -1,8 +1,8 @@
 package dev.coinboard.api.error;
 
+import dev.coinboard.api.coin.CoinNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSourceResolvable;
@@ -17,17 +17,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import dev.coinboard.api.coin.CoinNotFoundException;
 
 @RestControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
-    private static final Logger log = LoggerFactory
-            .getLogger(ApiExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
     @ExceptionHandler(CoinNotFoundException.class)
     public ProblemDetail handleCoinNotFound(CoinNotFoundException ex) {
-        ProblemDetail problem = ProblemDetail
-                .forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problem.setTitle("Coin not found");
         problem.setProperty("coinId", ex.coinId());
         return problem;
@@ -35,25 +32,20 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHandlerMethodValidationException(
-            HandlerMethodValidationException ex, HttpHeaders headers,
-            HttpStatusCode status, WebRequest request) {
+            HandlerMethodValidationException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         List<String> errors = new ArrayList<>();
-        for (ParameterValidationResult result : ex
-                .getParameterValidationResults()) {
+        for (ParameterValidationResult result : ex.getParameterValidationResults()) {
             for (MessageSourceResolvable error : result.getResolvableErrors()) {
-                errors.add(result.getMethodParameter().getParameterName() + ": "
-                        + error.getDefaultMessage());
+                errors.add(result.getMethodParameter().getParameterName() + ": " + error.getDefaultMessage());
             }
         }
         ex.getBody().setProperty("errors", errors);
-        return super.handleHandlerMethodValidationException(ex, headers, status,
-                request);
+        return super.handleHandlerMethodValidationException(ex, headers, status, request);
     }
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleUnexpected(Exception ex) {
         log.error("Unhandled Exception", ex);
-        return ProblemDetail.forStatusAndDetail(
-                HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong.");
+        return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong.");
     }
 }
