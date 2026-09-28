@@ -1,10 +1,10 @@
 package dev.coinboard.api.coin;
 
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 class CoinServiceTest {
     static class FakeCoinSource implements CoinSource {
@@ -21,8 +21,7 @@ class CoinServiceTest {
 
         var response = service.topCoins(3);
 
-        assertThat(response).containsExactly(TestCoins.BITCOIN,
-                TestCoins.ETHEREUM, TestCoins.TETHER);
+        assertThat(response).containsExactly(TestCoins.BITCOIN, TestCoins.ETHEREUM, TestCoins.TETHER);
     }
 
     @Test
@@ -77,7 +76,6 @@ class CoinServiceTest {
         var fakeCoinSource = new FakeCoinSource();
         var coinService = new CoinService(fakeCoinSource);
 
-        assertThatThrownBy(() -> coinService.getCoin("madeup"))
-                .isInstanceOf(CoinNotFoundException.class);
+        assertThatThrownBy(() -> coinService.getCoin("madeup")).isInstanceOf(CoinNotFoundException.class);
     }
 }

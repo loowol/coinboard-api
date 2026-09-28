@@ -9,5 +9,4 @@ public class CoinboardApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(CoinboardApiApplication.class, args);
     }
-
 }

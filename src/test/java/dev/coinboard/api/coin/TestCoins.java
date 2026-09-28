@@ -16,6 +16,5 @@ final class TestCoins {
                 {"id":"ethereum", "symbol":"eth", "name":"Ethereum", "marketCapRank":2}]
             """;
 
-    private TestCoins() {
-    }
+    private TestCoins() {}
 }
